@@ -11,18 +11,14 @@ const dbPassword = process.env.DB_PASSWORD || 'postgres';
 const dbHost = process.env.DB_HOST || 'localhost';
 const dbPort = process.env.DB_PORT || '5432';
 
-// Create Sequelize instance
-const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
-  host: dbHost,
-  port: parseInt(dbPort, 10),
-  dialect: 'postgres',
-  logging: console.log,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-});
-
-export default sequelize; 
+export const createSequelize = (timeoutMs?: number) => {
+  return new Sequelize(dbName, dbUser, dbPassword, {
+    host: dbHost,
+    port: parseInt(dbPort, 10),
+    dialect: 'postgres',
+    logging: false,
+    dialectOptions: {
+      statement_timeout: timeoutMs
+    }
+  });
+}
