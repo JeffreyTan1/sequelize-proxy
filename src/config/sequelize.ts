@@ -19,7 +19,7 @@ function createSequelizeProxy(sequelizeInstance: Sequelize) {
             // Handle promises
             if (result && typeof result.then === 'function') {
               return result.catch((error: unknown) => {
-                throw new Error(DUMMY_ERROR_MSG);
+                throw error;
               });
             }
             
